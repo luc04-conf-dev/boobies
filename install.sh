@@ -2,7 +2,7 @@
 
 set -e
 
-REPO="https://raw.githubusercontent.com/SEU-USUARIO/boobies/main"
+REPO="https://raw.githubusercontent.com/luc04-conf-dev/boobies/main"
 INSTALL_DIR="$HOME/.local/bin"
 
 echo "Installing boobies..."
