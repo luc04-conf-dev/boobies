@@ -8,26 +8,26 @@ Example:
       --version 1.0.0 \
       --input-root package-root \
       --output hello-1.0.0-x86_64.boob
+
+Package layout:
+
+  metadata.json
+  root/
+    <contents of --input-root>
+
+The generated .boob file is a gzip-compressed tar archive.
 """
 
 import argparse
 import json
 import os
 import tarfile
-import tempfile
+from pathlib import Path
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--name", required=True)
-    parser.add_argument("--version", required=True)
-    parser.add_argument("--architecture", default="x86_64")
-    parser.add_argument("--description", default="")
-    parser.add_argument("--input-root", required=True)
-    parser.add_argument("--output", required=True)
-    args = parser.parse_args()
-
-    metadata = {
+def build_metadata(args: argparse.Namespace) -> dict:
+    """Build the metadata stored inside the package."""
+    return {
         "name": args.name,
         "version": args.version,
         "architecture": args.architecture,
@@ -35,19 +35,134 @@ def main():
         "dependencies": [],
     }
 
-    with tempfile.TemporaryDirectory() as tmp:
-        tmp = os.path.abspath(tmp)
-        with open(os.path.join(tmp, "metadata.json"), "w", encoding="utf-8") as f:
-            json.dump(metadata, f, indent=2)
 
-        root_target = os.path.join(tmp, "root")
-        os.symlink(os.path.abspath(args.input_root), root_target)
+def create_package(
+    input_root: Path,
+    output_path: Path,
+    metadata: dict,
+) -> None:
+    """
+    Create a .boob package.
 
-        with tarfile.open(args.output, "w:gz", dereference=True) as tar:
-            tar.add(os.path.join(tmp, "metadata.json"), arcname="metadata.json")
-            tar.add(os.path.abspath(args.input_root), arcname="root")
+    The resulting archive contains:
 
-    print(f"created {args.output}")
+        metadata.json
+        root/<files from input_root>
+    """
+
+    if not input_root.exists():
+        raise FileNotFoundError(
+            f"input root does not exist: {input_root}"
+        )
+
+    if not input_root.is_dir():
+        raise NotADirectoryError(
+            f"input root is not a directory: {input_root}"
+        )
+
+    output_parent = output_path.parent
+    output_parent.mkdir(parents=True, exist_ok=True)
+
+    # Create a temporary metadata file next to the package generation process.
+    metadata_path = output_parent / f".{output_path.name}.metadata.json"
+
+    try:
+        with metadata_path.open("w", encoding="utf-8") as file:
+            json.dump(
+                metadata,
+                file,
+                indent=2,
+                ensure_ascii=False,
+            )
+            file.write("\n")
+
+        with tarfile.open(
+            output_path,
+            mode="w:gz",
+            dereference=True,
+        ) as tar:
+            # Add package metadata.
+            tar.add(
+                metadata_path,
+                arcname="metadata.json",
+                recursive=False,
+            )
+
+            # Add the contents of input_root under root/.
+            for entry in sorted(input_root.iterdir(), key=lambda p: p.name):
+                tar.add(
+                    entry,
+                    arcname=os.path.join("root", entry.name),
+                    recursive=True,
+                )
+
+    finally:
+        try:
+            metadata_path.unlink()
+        except FileNotFoundError:
+            pass
+
+
+def parse_arguments() -> argparse.Namespace:
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Create a minimal .boob package."
+    )
+
+    parser.add_argument(
+        "--name",
+        required=True,
+        help="Package name.",
+    )
+
+    parser.add_argument(
+        "--version",
+        required=True,
+        help="Package version.",
+    )
+
+    parser.add_argument(
+        "--architecture",
+        default="x86_64",
+        help="Package architecture. Default: x86_64",
+    )
+
+    parser.add_argument(
+        "--description",
+        default="",
+        help="Package description.",
+    )
+
+    parser.add_argument(
+        "--input-root",
+        required=True,
+        help="Directory containing the filesystem tree to package.",
+    )
+
+    parser.add_argument(
+        "--output",
+        required=True,
+        help="Output .boob file.",
+    )
+
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_arguments()
+
+    input_root = Path(args.input_root).expanduser().resolve()
+    output_path = Path(args.output).expanduser().resolve()
+
+    metadata = build_metadata(args)
+
+    create_package(
+        input_root=input_root,
+        output_path=output_path,
+        metadata=metadata,
+    )
+
+    print(f"created {output_path}")
 
 
 if __name__ == "__main__":
