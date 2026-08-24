@@ -4,6 +4,7 @@ mod database;
 mod installer;
 mod models;
 mod package;
+mod progress;
 mod repo;
 
 use anyhow::Result;

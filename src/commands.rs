@@ -1,3 +1,5 @@
+use crate::progress::{animate_larging, animate_unlarging};
+
 use std::{
     cmp::Ordering,
     fs,
@@ -115,8 +117,10 @@ fn bigger(cli: &Cli, package: &str, yes: bool) -> Result<()> {
     let installed = installer::install_package(&cli.root, &local_path, &mut db)?;
     database::save_installed_db(&cli.root, cli.config_dir.as_deref(), &db)?;
 
+    animate_larging();
+
     println!(
-        "Installed {} {}. The system got bigger. 💀",
+        "Installed {} {}. The boobs got bigger. 💀",
         installed.metadata.name, installed.metadata.version
     );
 
@@ -145,6 +149,8 @@ fn smaller(cli: &Cli, package: &str, yes: bool) -> Result<()> {
 
     let removed = installer::remove_package(&cli.root, package, &mut db)?;
     database::save_installed_db(&cli.root, cli.config_dir.as_deref(), &db)?;
+
+    animate_unlarging();
 
     println!(
         "Removed {} {}. The system got smaller.",

@@ -57,8 +57,11 @@ pub fn download_package(
 
         let client = Client::builder()
             .user_agent("boobies/0.1.0")
-            .build()
-            .context("failed to create HTTP client")?;
+            .no_gzip()
+            .no_brotli()
+            .no_deflate()
+            .no_zstd()
+            .build()?;
 
         let mut response = client
             .get(url)
@@ -108,7 +111,16 @@ pub fn download_package(
     let actual = sha256_file(destination)
         .with_context(|| format!("failed to calculate SHA-256 for {}", destination.display()))?;
 
-    if !actual.eq_ignore_ascii_case(&package.sha256) {
+    let actual = sha256_file(destination)?;
+
+    println!(
+        "EXPECTED: {:?} len={}",
+        package.sha256,
+        package.sha256.len()
+    );
+    println!("ACTUAL:   {:?} len={}", actual, actual.len());
+
+    if actual.trim().ne(package.sha256.trim()) {
         anyhow::bail!(
             "SHA-256 mismatch for {}: expected {}, got {}",
             package.filename,

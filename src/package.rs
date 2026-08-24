@@ -7,7 +7,7 @@ use std::{
 use anyhow::{Context, Result};
 use flate2::read::GzDecoder;
 use sha2::{Digest, Sha256};
-use tar::Archive;
+use tar::{Archive, EntryType};
 
 use crate::models::PackageMetadata;
 
@@ -24,15 +24,18 @@ pub struct PackageEntry {
 
 pub fn sha256_file(path: &Path) -> Result<String> {
     let file = File::open(path).with_context(|| format!("failed to open {}", path.display()))?;
+
     let mut reader = BufReader::new(file);
     let mut hasher = Sha256::new();
     let mut buffer = [0u8; 64 * 1024];
 
     loop {
         let read = reader.read(&mut buffer)?;
+
         if read == 0 {
             break;
         }
+
         hasher.update(&buffer[..read]);
     }
 
@@ -42,6 +45,7 @@ pub fn sha256_file(path: &Path) -> Result<String> {
 pub fn read_package(path: &Path) -> Result<OpenPackage> {
     let file =
         File::open(path).with_context(|| format!("failed to open package {}", path.display()))?;
+
     let decoder = GzDecoder::new(file);
     let mut archive = Archive::new(decoder);
 
@@ -50,30 +54,79 @@ pub fn read_package(path: &Path) -> Result<OpenPackage> {
 
     for item in archive.entries()? {
         let mut entry = item?;
-        let path = entry.path()?.to_path_buf();
 
-        if path == Path::new("metadata.json") {
+        let entry_path = entry.path()?.to_path_buf();
+        let entry_type = entry.header().entry_type();
+
+        // metadata.json fica fora de root/
+        if entry_path == Path::new("metadata.json") {
+            if !entry_type.is_file() {
+                anyhow::bail!("metadata.json is not a regular file");
+            }
+
             let mut text = String::new();
-            entry.read_to_string(&mut text)?;
-            metadata = Some(serde_json::from_str::<PackageMetadata>(&text)?);
+
+            entry
+                .read_to_string(&mut text)
+                .context("failed to read metadata.json")?;
+
+            metadata = Some(
+                serde_json::from_str::<PackageMetadata>(&text)
+                    .context("failed to parse metadata.json")?,
+            );
+
             continue;
         }
 
-        let path = if let Ok(stripped) = path.strip_prefix("root") {
-            stripped.to_path_buf()
-        } else {
-            anyhow::bail!("package member `{}` is outside root/", path.display());
-        };
+        // Tudo além de metadata.json precisa estar dentro de root/
+        let relative_path = entry_path
+            .strip_prefix("root")
+            .with_context(|| format!("package member `{}` is outside root/", entry_path.display()))?
+            .to_path_buf();
 
-        validate_relative_path(&path)?;
+        // A entrada root/ em si é um diretório vazio e não precisa ser instalada.
+        if relative_path.as_os_str().is_empty() {
+            if entry_type.is_dir() {
+                continue;
+            }
+
+            anyhow::bail!("package member `{}` is invalid", entry_path.display());
+        }
+
+        validate_relative_path(&relative_path)?;
+
+        // DIRETÓRIOS:
+        //
+        // Não adicionamos diretórios como PackageEntry porque o instalador
+        // deve criar automaticamente os diretórios pais dos arquivos.
+        //
+        // Isso evita tentar escrever um diretório como /opt como se fosse
+        // um arquivo.
+        if entry_type.is_dir() {
+            continue;
+        }
+
+        // Por enquanto aceitamos somente arquivos regulares.
+        //
+        // Isso também evita que symlinks, hardlinks e outros tipos especiais
+        // dentro do pacote possam escapar ou causar comportamento inesperado.
+        if !entry_type.is_file() {
+            anyhow::bail!(
+                "unsupported package member type for `{}`",
+                entry_path.display()
+            );
+        }
 
         let mut data = Vec::new();
-        entry.read_to_end(&mut data)?;
+
+        entry
+            .read_to_end(&mut data)
+            .with_context(|| format!("failed to read package member `{}`", entry_path.display()))?;
 
         let mode = entry.header().mode().ok();
 
         members.push(PackageEntry {
-            relative_path: path,
+            relative_path,
             data,
             mode,
         });
@@ -102,6 +155,7 @@ pub fn validate_relative_path(path: &Path) -> Result<()> {
             Component::Prefix(_) | Component::RootDir | Component::ParentDir => {
                 anyhow::bail!("unsafe package path `{}`", path.display());
             }
+
             Component::CurDir | Component::Normal(_) => {}
         }
     }
@@ -121,10 +175,12 @@ pub fn package_architecture() -> &'static str {
 
 pub fn safe_join(root: &Path, relative: &Path) -> Result<PathBuf> {
     validate_relative_path(relative)?;
+
     Ok(root.join(relative))
 }
 
 pub fn ensure_directory(path: &Path) -> Result<()> {
     fs::create_dir_all(path).with_context(|| format!("failed to create {}", path.display()))?;
+
     Ok(())
 }
