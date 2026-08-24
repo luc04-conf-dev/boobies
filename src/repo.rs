@@ -50,17 +50,14 @@ pub fn download_package(
     destination: &Path,
 ) -> Result<()> {
     if repository.starts_with("http://") || repository.starts_with("https://") {
-        let base = normalize_base(repository)?;
-        let url = Url::parse(&base)?
-            .join(&format!("packages/{}", package.filename))?
-            .to_string();
+        let url = &package.download_url;
 
         let client = Client::builder()
             .user_agent("boobies/0.1.0")
             .build()?;
 
         let mut response = client
-            .get(&url)
+            .get(url)
             .send()
             .with_context(|| format!("failed to download {url}"))?
             .error_for_status()

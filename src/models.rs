@@ -29,6 +29,9 @@ pub struct RepositoryPackage {
     pub architecture: String,
     #[serde(default)]
     pub description: String,
+    // URL direta para baixar o pacote.
+    // Ex.: GitHub Release asset
+    pub download_url: String,
     pub filename: String,
     pub sha256: String,
     #[serde(default)]
