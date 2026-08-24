@@ -1,4 +1,4 @@
 {
-  "repository": "./examples/repo",
+  "repository": "https://luc04-conf-dev.github.io/boobies/examples/repo",
   "root": "./test-root"
 }
