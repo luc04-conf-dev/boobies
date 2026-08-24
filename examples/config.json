@@ -1,0 +1,4 @@
+{
+  "repository": "./examples/repo",
+  "root": "./test-root"
+}
