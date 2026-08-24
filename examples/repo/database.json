@@ -3,12 +3,12 @@
   "generated_at": "2026-08-24T00:00:00Z",
   "packages": [
     {
-      "name": "hello",
-      "version": "1.0.0",
+      "name": "firefox",
+      "version": "154.0",
       "architecture": "x86_64",
-      "description": "A tiny example package for Boobies",
-      "filename": "hello-1.0.0-x86_64.boob",
-      "sha256": "REPLACE_ME",
+      "description": "Mozilla Firefox web browser",
+      "filename": "packages/firefox-154.0-x86_64.boob",
+      "sha256": "668a01fe538582a6027d6118a3180d30d1b944cdd1d6c90146922b43e751fe44",
       "dependencies": []
     }
   ]
