@@ -9,8 +9,7 @@ use anyhow::{Context, Result};
 
 use crate::{
     cli::{Cli, Command},
-    database,
-    installer,
+    database, installer,
     models::{Config, Dependency, InstalledDatabase, RepositoryPackage},
     package::{package_architecture, read_package},
     repo,
@@ -49,18 +48,18 @@ pub fn dispatch(cli: Cli) -> Result<()> {
         return Ok(());
     }
 
-match cli.command.as_ref() {
-    Some(Command::Bigger { package, yes }) => bigger(&cli, package, *yes),
-    Some(Command::Smaller { package, yes }) => smaller(&cli, package, *yes),
-    Some(Command::Grow { force: _ }) => grow(&cli),
-    Some(Command::Expand { yes }) => expand(&cli, *yes),
-    Some(Command::List) => list(&cli),
-    Some(Command::Version) => {
-        println!("boobies {}", env!("CARGO_PKG_VERSION"));
-        Ok(())
+    match cli.command.as_ref() {
+        Some(Command::Bigger { package, yes }) => bigger(&cli, package, *yes),
+        Some(Command::Smaller { package, yes }) => smaller(&cli, package, *yes),
+        Some(Command::Grow { force: _ }) => grow(&cli),
+        Some(Command::Expand { yes }) => expand(&cli, *yes),
+        Some(Command::List) => list(&cli),
+        Some(Command::Version) => {
+            println!("boobies {}", env!("CARGO_PKG_VERSION"));
+            Ok(())
+        }
+        None => unreachable!("clap should reject missing command"),
     }
-    None => unreachable!("clap should reject missing command"),
-}
 }
 
 fn bigger(cli: &Cli, package: &str, yes: bool) -> Result<()> {
@@ -83,7 +82,10 @@ fn bigger(cli: &Cli, package: &str, yes: bool) -> Result<()> {
 
         let destination = cache_dir.join(&repo_pkg.filename);
 
-        println!("Boobies is getting bigger: {} {}", repo_pkg.name, repo_pkg.version);
+        println!(
+            "Boobies is getting bigger: {} {}",
+            repo_pkg.name, repo_pkg.version
+        );
         repo::download_package(&config.repository, repo_pkg, &destination)?;
 
         destination
@@ -272,10 +274,7 @@ fn check_architecture(architecture: &str) -> Result<()> {
     );
 }
 
-fn ensure_not_breaking_existing(
-    dependencies: &[Dependency],
-    db: &InstalledDatabase,
-) -> Result<()> {
+fn ensure_not_breaking_existing(dependencies: &[Dependency], db: &InstalledDatabase) -> Result<()> {
     for dep in dependencies {
         if !db.packages.contains_key(&dep.name) {
             anyhow::bail!(

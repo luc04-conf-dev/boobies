@@ -23,8 +23,7 @@ pub struct PackageEntry {
 }
 
 pub fn sha256_file(path: &Path) -> Result<String> {
-    let file = File::open(path)
-        .with_context(|| format!("failed to open {}", path.display()))?;
+    let file = File::open(path).with_context(|| format!("failed to open {}", path.display()))?;
     let mut reader = BufReader::new(file);
     let mut hasher = Sha256::new();
     let mut buffer = [0u8; 64 * 1024];
@@ -41,8 +40,8 @@ pub fn sha256_file(path: &Path) -> Result<String> {
 }
 
 pub fn read_package(path: &Path) -> Result<OpenPackage> {
-    let file = File::open(path)
-        .with_context(|| format!("failed to open package {}", path.display()))?;
+    let file =
+        File::open(path).with_context(|| format!("failed to open package {}", path.display()))?;
     let decoder = GzDecoder::new(file);
     let mut archive = Archive::new(decoder);
 
@@ -63,10 +62,7 @@ pub fn read_package(path: &Path) -> Result<OpenPackage> {
         let path = if let Ok(stripped) = path.strip_prefix("root") {
             stripped.to_path_buf()
         } else {
-            anyhow::bail!(
-                "package member `{}` is outside root/",
-                path.display()
-            );
+            anyhow::bail!("package member `{}` is outside root/", path.display());
         };
 
         validate_relative_path(&path)?;
@@ -104,10 +100,7 @@ pub fn validate_relative_path(path: &Path) -> Result<()> {
     for component in path.components() {
         match component {
             Component::Prefix(_) | Component::RootDir | Component::ParentDir => {
-                anyhow::bail!(
-                    "unsafe package path `{}`",
-                    path.display()
-                );
+                anyhow::bail!("unsafe package path `{}`", path.display());
             }
             Component::CurDir | Component::Normal(_) => {}
         }
@@ -132,7 +125,6 @@ pub fn safe_join(root: &Path, relative: &Path) -> Result<PathBuf> {
 }
 
 pub fn ensure_directory(path: &Path) -> Result<()> {
-    fs::create_dir_all(path)
-        .with_context(|| format!("failed to create {}", path.display()))?;
+    fs::create_dir_all(path).with_context(|| format!("failed to create {}", path.display()))?;
     Ok(())
 }

@@ -6,7 +6,7 @@ use std::{
 
 use anyhow::{Context, Result};
 use dirs::home_dir;
-use serde::{de::DeserializeOwned, Serialize};
+use serde::{Serialize, de::DeserializeOwned};
 
 use crate::models::{Config, InstalledDatabase, RepositoryIndex};
 
@@ -39,8 +39,8 @@ pub fn installed_db_path(root: &Path, custom: Option<&Path>) -> PathBuf {
 }
 
 pub fn load_json<T: DeserializeOwned>(path: &Path) -> Result<T> {
-    let text = fs::read_to_string(path)
-        .with_context(|| format!("failed to read {}", path.display()))?;
+    let text =
+        fs::read_to_string(path).with_context(|| format!("failed to read {}", path.display()))?;
     let value = serde_json::from_str(&text)
         .with_context(|| format!("failed to parse JSON {}", path.display()))?;
     Ok(value)
@@ -62,8 +62,7 @@ pub fn save_json<T: Serialize>(path: &Path, value: &T) -> Result<()> {
         file.sync_all()?;
     }
 
-    fs::rename(&tmp, path)
-        .with_context(|| format!("failed to replace {}", path.display()))?;
+    fs::rename(&tmp, path).with_context(|| format!("failed to replace {}", path.display()))?;
 
     Ok(())
 }
@@ -98,11 +97,7 @@ pub fn load_installed_db(root: &Path, custom: Option<&Path>) -> Result<Installed
     load_json(&path)
 }
 
-pub fn save_installed_db(
-    root: &Path,
-    custom: Option<&Path>,
-    db: &InstalledDatabase,
-) -> Result<()> {
+pub fn save_installed_db(root: &Path, custom: Option<&Path>, db: &InstalledDatabase) -> Result<()> {
     let path = installed_db_path(root, custom);
     save_json(&path, db)
 }
@@ -111,9 +106,7 @@ pub fn load_repository_cache(custom: Option<&Path>) -> Result<RepositoryIndex> {
     let path = repository_cache_path(custom);
 
     if !path.exists() {
-        anyhow::bail!(
-            "local repository database not found; run `boobies grow` first"
-        );
+        anyhow::bail!("local repository database not found; run `boobies grow` first");
     }
 
     load_json(&path)
