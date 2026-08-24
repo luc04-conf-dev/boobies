@@ -9,7 +9,7 @@
       "description": "Mozilla Firefox web browser",
       "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/firefox-154.0-2/firefox-154.0-x86_64.boob",
       "filename": "firefox-154.0-x86_64.boob",
-      "sha256": "0b30a3d58e5acf91d92d3a7459e6a5251ab0a9e17bcc35fd1a9b35462037",
+      "sha256": "0b30a3d58e5cafc91d92d3da7459e60a65251ab0a9e17bcc35fd1a9b35462037",
       "dependencies": []
     }
   ]
