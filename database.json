@@ -65,14 +65,14 @@
         { "name": "muparser" }
       ]
     },
-    {
-  "name": "vscodium",
-  "version": "1.126.04524",
-  "architecture": "x86_64",
-  "description": "VSCodium - Libre build of Visual Studio Code",
-  "filename": "vscodium-1.126.04524-x86_64.boob",
-  "sha256": "9f4d697bafe564518e901546537a7991afaa31f43d05b5e214df0bc15162eadd",
-  "download_url": "https://github.com/luc04-conf-dev/boobies/releases/tag/vscodium-1.126.04524/vscodium-1.126.04524-x86_64.boob"
-}
+  {
+    "name": "vscodium",
+    "version": "1.126.04524",
+    "architecture": "x86_64",
+    "description": "VSCodium - Libre build of Visual Studio Code",
+    "filename": "vscodium-1.126.04524-x86_64.boob",
+    "sha256": "9f4d697bafe564518e901546537a7991afaa31f43d05b5e214df0bc15162eadd",
+    "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/vscodium-1.126.04524/vscodium-1.126.04524-x86_64.boob"
+  }
   ]
 }
