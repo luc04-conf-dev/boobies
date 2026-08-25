@@ -83,6 +83,16 @@
     "sha256": "0821085ed380282149fea351f75b96a33ad8a374c5d69520bd5eea59fbe6c9d7",
     "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/btop-1.4.7-1.1/btop-1.4.7-1.1-x86_64.boob",
     "dependencies": []
-  }
+  },
+  {
+  "name": "neovim",
+  "version": "0.12.4-1.1",
+  "architecture": "x86_64",
+  "description": "Hyperextensible Vim-based text editor",
+  "filename": "neovim-0.12.4-1.1-x86_64.boob",
+  "sha256": "f95b7b8a009f1da3b6b4d7767ed371537244dd51d42f1217822b22187649fe0b",
+  "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/neovim-0.12.4-1.1/neovim-0.12.4-1.1-x86_64.boob",
+  "dependencies": []
+}
   ]
 }
