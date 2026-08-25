@@ -81,7 +81,7 @@
     "description": "Resource monitor",
     "filename": "btop-1.4.7-1.1-x86_64.boob",
     "sha256": "0821085ed380282149fea351f75b96a33ad8a374c5d69520bd5eea59fbe6c9d7",
-    "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/btop-VERSAO/btop-1.4.7-1.1-x86_64.boob",
+    "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/btop-1.4.7-1.1/btop-1.4.7-1.1-x86_64.boob",
     "dependencies": []
   }
   ]
