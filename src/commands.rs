@@ -153,7 +153,7 @@ fn smaller(cli: &Cli, package: &str, yes: bool) -> Result<()> {
     animate_unlarging();
 
     println!(
-        "Removed {} {}. The system got smaller.",
+        "Removed {} {}. The boobs got smaller. 💀",
         removed.metadata.name, removed.metadata.version
     );
 
