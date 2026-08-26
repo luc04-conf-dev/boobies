@@ -123,6 +123,16 @@
   "sha256": "fcd220fe9ec516cb795a3a4a2520fc12880c382af9999cd74115af512834e69e",
   "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/clang-22.1.8-2/clang-22.1.8-2-x86_64.boob",
   "dependencies": []
+  },
+  {
+  "name": "glibc",
+  "version": "2.44+r24+g16be1518495f-1",
+  "architecture": "x86_64",
+  "description": "GNU C Library",
+  "filename": "glibc-2.44+r24+g16be1518495f-1-x86_64.boob",
+  "sha256": "0d4c27440a71802a9599e61d9bbce392136b0eb359a909411a4a746c7fd2e07b",
+  "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/glibc-2.44%2Br24%2Bg16be1518495f-1/glibc-2.44+r24+g16be1518495f-1-x86_64.boob",
+  "dependencies": []
   }
   ]
 }
