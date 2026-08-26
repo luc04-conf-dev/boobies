@@ -113,6 +113,16 @@
   "sha256": "2670f3bf0c0feeab584878402e8b1861b3be748696f6020f72674ff9e8e94cfe",
   "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/git-2.55.0-1.1/git-2.55.0-1.1-x86_64.boob",
   "dependencies": []
+  },
+  {
+  "name": "clang",
+  "version": "22.1.8-2",
+  "architecture": "x86_64",
+  "description": "C language family frontend for LLVM",
+  "filename": "clang-22.1.8-2-x86_64.boob",
+  "sha256": "fcd220fe9ec516cb795a3a4a2520fc12880c382af9999cd74115af512834e69e",
+  "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/clang-22.1.8-2/clang-22.1.8-2-x86_64.boob",
+  "dependencies": []
   }
   ]
 }
