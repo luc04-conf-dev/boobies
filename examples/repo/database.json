@@ -93,6 +93,16 @@
   "sha256": "f95b7b8a009f1da3b6b4d7767ed371537244dd51d42f1217822b22187649fe0b",
   "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/neovim-0.12.4-1.1/neovim-0.12.4-1.1-x86_64.boob",
   "dependencies": []
-}
+  },
+    {
+  "name": "zsh",
+  "version": "5.9.2-1.1",
+  "architecture": "x86_64",
+  "description": "Z shell",
+  "filename": "zsh-5.9.2-1.1-x86_64.boob",
+  "sha256": "1ff69d97cac8ba3c81f06322f602a3fa62417d900255659261ec3b6b3b1a5d85",
+  "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/zsh-5.9.2-1.1/zsh-5.9.2-1.1-x86_64.boob",
+  "dependencies": []
+  }
   ]
 }
