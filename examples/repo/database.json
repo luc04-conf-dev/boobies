@@ -103,6 +103,16 @@
   "sha256": "1ff69d97cac8ba3c81f06322f602a3fa62417d900255659261ec3b6b3b1a5d85",
   "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/zsh-5.9.2-1.1/zsh-5.9.2-1.1-x86_64.boob",
   "dependencies": []
+  },
+  {
+  "name": "git",
+  "version": "2.55.0-1.1",
+  "architecture": "x86_64",
+  "description": "Distributed version control system",
+  "filename": "git-2.55.0-1.1-x86_64.boob",
+  "sha256": "2670f3bf0c0feeab584878402e8b1861b3be748696f6020f72674ff9e8e94cfe",
+  "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/git-2.55.0-1.1/git-2.55.0-1.1-x86_64.boob",
+  "dependencies": []
   }
   ]
 }
