@@ -133,6 +133,16 @@
   "sha256": "0d4c27440a71802a9599e61d9bbce392136b0eb359a909411a4a746c7fd2e07b",
   "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/glibc-2.44%2Br24%2Bg16be1518495f-1/glibc-2.44+r24+g16be1518495f-1-x86_64.boob",
   "dependencies": []
+  },
+  {
+  "name": "coreutils",
+  "version": "9.11-2.1",
+  "architecture": "x86_64",
+  "description": "GNU core utilities",
+  "filename": "coreutils-9.11-2.1-x86_64.boob",
+  "sha256": "65062569ef62539cd8ffd85338b6eb4baee74c6bdd95b81a4d10d231ad1c1401",
+  "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/coreutils-9.11-2.1/coreutils-9.11-2.1-x86_64.boob",
+  "dependencies": []
   }
   ]
 }
