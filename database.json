@@ -143,6 +143,16 @@
   "sha256": "65062569ef62539cd8ffd85338b6eb4baee74c6bdd95b81a4d10d231ad1c1401",
   "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/coreutils-9.11-2.1/coreutils-9.11-2.1-x86_64.boob",
   "dependencies": []
+  },
+  {
+  "name": "util-linux",
+  "version": "2.42.2-1.1",
+  "architecture": "x86_64",
+  "description": "System utilities for Linux",
+  "filename": "util-linux-2.42.2-1.1-x86_64.boob",
+  "sha256": "04f2850803ff461c7fd7e6bcbf28d80e997313b3419432c96f03c929f0ff16c7",
+  "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/util-linux-2.42.2-1.1/util-linux-2.42.2-1.1-x86_64.boob",
+  "dependencies": []
   }
   ]
 }
