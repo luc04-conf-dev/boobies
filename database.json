@@ -163,6 +163,16 @@
   "sha256": "be1ce946a6c481162d3283c980230a0592b2f1ae4b18ee5391b105d715a7a71c",
   "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/quetzafetch-0.1.0/quetzafetch-0.1.0-x86_64.boob",
   "dependencies": []
+  },
+  {
+  "name": "your-mommy-boobs-kernel",
+  "version": "6.18.47-1",
+  "architecture": "x86_64",
+  "description": "Quetzalcoatl Linux custom desktop and gaming kernel",
+  "filename": "your-mommy-boobs-kernel-6.18.47-1-x86_64.boob",
+  "sha256": "8689f83e5662f8f500ddce28d951420997547b955777c07ca4c8a52f66ba9973",
+  "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/your-mommy-boobs-kernel-6.18.47-1/your-mommy-boobs-kernel-6.18.47-1-x86_64.boob",
+  "dependencies": []
   }
   ]
 }
