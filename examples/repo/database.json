@@ -153,6 +153,16 @@
   "sha256": "04f2850803ff461c7fd7e6bcbf28d80e997313b3419432c96f03c929f0ff16c7",
   "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/util-linux-2.42.2-1.1/util-linux-2.42.2-1.1-x86_64.boob",
   "dependencies": []
+  },
+  {
+  "name": "quetzafetch",
+  "version": "0.1.0",
+  "architecture": "x86_64",
+  "description": "System fetch utility for Quetzalcoatl Linux",
+  "filename": "quetzafetch-0.1.0-x86_64.boob",
+  "sha256": "be1ce946a6c481162d3283c980230a0592b2f1ae4b18ee5391b105d715a7a71c",
+  "download_url": "https://github.com/luc04-conf-dev/boobies/releases/download/quetzafetch-0.1.0/quetzafetch-0.1.0-x86_64.boob",
+  "dependencies": []
   }
   ]
 }
